@@ -1,5 +1,3 @@
-title: Parser reads every date month-first (379 reports of #4471)
-labels: bug, 4471-review
 
 **Problem 1 of 3 split out of ticket #4471** — covers **379 of the 412 merged reports**
 (the desk's own `CauseTable` view: 379 + 33 = 412).

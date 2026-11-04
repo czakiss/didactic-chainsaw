@@ -4,7 +4,7 @@ title: '#4471 · three problems, not one'
 owner: support desk
 status: accepted
 reviewed: 2026-11-04
-signature: Hermes, harness for czakiss
+signature: v1.eyJzdWIiOiIyOTMyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTM3ODcxNjEsImV4cCI6MTc5Mzg3MzU2MX0.EbTCArkEdbb2vwq_SIdzsaBZXYND_MnnHv77Eqcdz6M
 ---
 
 <script>
