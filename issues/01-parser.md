@@ -1,7 +1,8 @@
-title: Parser reads every date month-first (374 reports of #4471)
+title: Parser reads every date month-first (379 reports of #4471)
 labels: bug, 4471-review
 
-**Problem 1 of 3 split out of ticket #4471** — covers **374 of the 412 merged reports** (90.8%).
+**Problem 1 of 3 split out of ticket #4471** — covers **379 of the 412 merged reports**
+(the desk's own `CauseTable` view: 379 + 33 = 412).
 
 ## What happens
 
@@ -15,14 +16,18 @@ reads dates month first") and a fix is queued.
 
 ## Evidence
 
-From the kb export's own logic (`src/lib/kb/causes.ts`, `causeOf()`: any day-first tenant,
-any channel), after `uniqueById` removed 15 duplicate export rows:
+Counted with the desk's own view, as it was exported (`CauseTable` in the kb: `uniqueById`,
+then `groupByCause` with `causeOf()` — any day-first tenant, any channel):
 
-- Reports: **374 unique** — 202 app, 147 email, 25 form
-- All 11 tenants affected; per tenant: harbour.dental 52, kettle.books 46, nine.lanterns 43,
-  morrow.tax 40, long.table 39, ridge.clinic 36, stone.and.sons 30, lantern.row 27,
-  alder.physio 22, pale.harbour 20, copper.studio 19
+- Reports: **379 unique** — 204 app, 150 email, 25 form
+- All 11 tenants affected; per tenant: harbour.dental 52, kettle.books 47, nine.lanterns 44,
+  morrow.tax 40, long.table 39, ridge.clinic 36, stone.and.sons 30, lantern.row 28,
+  alder.physio 23, pale.harbour 21, copper.studio 19
 - First seen 2026-04-01, last seen 2026-10-04
+
+Of these 379, the desk reads **5 reports as a one-day move** (its `desk-notes.json`,
+`oneDayMove`) and files them under `parser` by tenant — footnoted there in the kb's
+`CauseTable`. Those 5 are a third problem, filed as its own ticket here.
 
 Example reports (id · tenant · channel):
 
@@ -32,5 +37,6 @@ Example reports (id · tenant · channel):
 
 ## Fix
 
-Already queued (per the kb incident page for #4471). This ticket covers the 374 reports the
-queued fix resolves; the other 38 reports in #4471 belong to problems 2 and 3.
+Already queued (per the kb incident page for #4471). This ticket covers the reports the
+queued fix resolves; the 33 hint-cause reports are problem 2, the 5 one-day reports
+problem 3.

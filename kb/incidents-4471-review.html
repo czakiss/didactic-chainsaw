@@ -52,18 +52,22 @@ footer { margin-top: 3rem; color: var(--muted); font-size: 0.8rem; border-top: 1
     </aside>
 
     <h2>What the reports split into</h2>
+    <p>
+      Counted with the desk’s own view, as it was exported (<code>CauseTable</code>: <code>uniqueById</code>, then
+      <code>groupByCause</code> with <code>causeOf()</code>):
+    </p>
     <table>
-      <thead><tr><th>problem</th><th>reports</th><th>tenants</th><th>first seen</th><th>last seen</th><th>fix</th></tr></thead>
+      <thead><tr><th>cause</th><th>reports</th><th>tenants</th><th>first seen</th><th>last seen</th><th>fix</th></tr></thead>
       <tbody>
-        <tr><td>shared parser reads every date month-first</td><td>374</td><td>11</td><td>2026-04-01</td><td>2026-10-04</td><td>queued</td></tr>
-        <tr><td>booking-v3’s hint says MM/DD/YYYY, the form parses day-first</td><td>33</td><td>3</td><td>2026-04-17</td><td>2026-09-22</td><td>none</td></tr>
-        <tr><td>invites land one day off (timezone or DST), no month swap</td><td>5</td><td>5</td><td>2026-04-02</td><td>2026-10-04</td><td>none</td></tr>
+        <tr><td><code>parser</code> — shared parser reads every date month-first</td><td>379</td><td>11</td><td>2026-04-01</td><td>2026-10-04</td><td>queued</td></tr>
+        <tr><td><code>hint</code> — booking-v3’s hint says MM/DD/YYYY, the form parses day-first</td><td>33</td><td>3</td><td>2026-04-17</td><td>2026-09-22</td><td>none</td></tr>
       </tbody>
     </table>
     <p>
-      The split runs on the kb’s own <code>causeOf()</code> (<code>src/lib/kb/causes.ts</code>) and on the desk’s own
-      notes (<code>src/lib/data/desk-notes.json</code>, <code>oneDayMove</code>), with the export’s duplicate rows
-      removed by <code>uniqueById</code> first. 374 + 33 + 5 = 412.
+      379 + 33 = 412. The <code>CauseTable</code> footnotes the 5 reports the desk reads as a one-day
+      move (<code>desk-notes.json</code>, <code>oneDayMove</code>): they count under <code>parser</code>, filed there by tenant,
+      but they are a third problem — a timezone or DST shift, no month swap — and the queued
+      parser fix will not resolve them.
     </p>
 
     <h2>Why the merge hid it</h2>
@@ -78,7 +82,7 @@ footer { margin-top: 3rem; color: var(--muted); font-size: 0.8rem; border-top: 1
 
     <h2>What to do</h2>
     <ul>
-      <li>Keep #4471 open for the parser alone (374 reports) until the queued fix lands.</li>
+      <li>Keep #4471 open for the parser alone (379 reports) until the queued fix lands.</li>
       <li>File the booking-v3 hint bug and the one-day shift as their own tickets, with the counts
         above. Filed: see the review repo, issues 1–3.</li>
     </ul>

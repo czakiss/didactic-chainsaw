@@ -17,15 +17,18 @@ The fix queued for the parser does not reach the other two.
 
 ## What the reports split into
 
-| problem | reports | tenants | first seen | last seen | fix |
-|---|---|---|---|---|---|
-| shared parser reads every date month-first | 374 | 11 | 2026-04-01 | 2026-10-04 | queued |
-| booking-v3's hint says MM/DD/YYYY, the form parses day-first | 33 | 3 | 2026-04-17 | 2026-09-22 | none |
-| invites land one day off (timezone or DST), no month swap | 5 | 5 | 2026-04-02 | 2026-10-04 | none |
+Counted with the desk's own view, as it was exported (`CauseTable`: `uniqueById`, then
+`groupByCause` with `causeOf()`):
 
-The split runs on the kb's own `causeOf()` (`src/lib/kb/causes.ts`) and on the desk's own
-notes (`src/lib/data/desk-notes.json`, `oneDayMove`), with the export's duplicate rows
-removed by `uniqueById` first. 374 + 33 + 5 = 412.
+| cause | reports | tenants | first seen | last seen | fix |
+|---|---|---|---|---|---|
+| `parser` — shared parser reads every date month-first | 379 | 11 | 2026-04-01 | 2026-10-04 | queued |
+| `hint` — booking-v3's hint says MM/DD/YYYY, the form parses day-first | 33 | 3 | 2026-04-17 | 2026-09-22 | none |
+
+379 + 33 = 412. The `CauseTable` footnotes the 5 reports the desk reads as a one-day
+move (`desk-notes.json`, `oneDayMove`): they count under `parser`, filed there by tenant,
+but they are a third problem — a timezone or DST shift, no month swap — and the queued
+parser fix will not resolve them.
 
 ## Why the merge hid it
 
@@ -38,7 +41,7 @@ reporter's browser, not the cause, and it disagrees with `causeOf()` on 23 + 15 
 
 ## What to do
 
-- Keep #4471 open for the parser alone (374 reports) until the queued fix lands.
+- Keep #4471 open for the parser alone (379 reports) until the queued fix lands.
 - File the booking-v3 hint bug and the one-day shift as their own tickets, with the counts
   above. Filed: see the review repo, issues 1–3.
 

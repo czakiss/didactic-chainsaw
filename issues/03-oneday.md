@@ -1,7 +1,10 @@
 title: Five reports in #4471 are one-day shifts, not month swaps (timezone/DST)
 labels: bug, 4471-review
 
-**Problem 3 of 3 split out of ticket #4471** — covers **5 of the 412 merged reports** (1.2%).
+**Problem 3 of 3 split out of ticket #4471.** The desk's exported view counts these **5
+reports under `parser`** (they sit in #4471's 379-parser group, footnoted there by the
+`CauseTable`); the desk's own notes flag them as something else. They are a separate
+problem and the queued parser fix will not resolve them.
 
 ## What happens
 
@@ -14,8 +17,7 @@ resolve them.
 ## Evidence
 
 These are exactly the reports the desk itself read differently and noted in
-`src/lib/data/desk-notes.json` under `oneDayMove` — filed under #4471's cause by tenant,
-but footnoted by the desk as something else:
+`src/lib/data/desk-notes.json` under `oneDayMove`:
 
 | id | tenant | channel | what the report says |
 |---|---|---|---|
