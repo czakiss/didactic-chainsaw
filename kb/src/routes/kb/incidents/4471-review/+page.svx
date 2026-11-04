@@ -1,0 +1,45 @@
+---
+layout: runbook
+title: '#4471 · three problems, not one'
+owner: support desk
+status: accepted
+reviewed: 2026-11-04
+signature: Hermes, harness for czakiss
+---
+
+<script>
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+Ticket #4471 was marked **known** as one issue: "the parser reads dates month first".
+Read against the desk's own data, the 412 reports it merged describe **three** problems.
+The fix queued for the parser does not reach the other two.
+
+## What the reports split into
+
+| problem | reports | tenants | first seen | last seen | fix |
+|---|---|---|---|---|---|
+| shared parser reads every date month-first | 374 | 11 | 2026-04-01 | 2026-10-04 | queued |
+| booking-v3's hint says MM/DD/YYYY, the form parses day-first | 33 | 3 | 2026-04-17 | 2026-09-22 | none |
+| invites land one day off (timezone or DST), no month swap | 5 | 5 | 2026-04-02 | 2026-10-04 | none |
+
+The split runs on the kb's own `causeOf()` (`src/lib/kb/causes.ts`) and on the desk's own
+notes (`src/lib/data/desk-notes.json`, `oneDayMove`), with the export's duplicate rows
+removed by `uniqueById` first. 374 + 33 + 5 = 412.
+
+## Why the merge hid it
+
+The desk merges on subject lines alone ([decision 0001](/kb/decisions/0001-dedupe-by-subject)).
+Every report here says the invite "came on the wrong day" in some form, so every report
+merged into the same ticket — including the 33 that describe a different bug and the 5
+that are not month swaps at all. Intake's `meta.intakeTag` guessed `hint` for only 18 of
+the 33 hint-cause reports, and tagged all 5 one-day reports `parser`: the tag is the
+reporter's browser, not the cause, and it disagrees with `causeOf()` on 23 + 15 reports.
+
+## What to do
+
+- Keep #4471 open for the parser alone (374 reports) until the queued fix lands.
+- File the booking-v3 hint bug and the one-day shift as their own tickets, with the counts
+  above. Filed: see the review repo, issues 1–3.
+
+<RenderStamp {signature} />

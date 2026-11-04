@@ -1,0 +1,35 @@
+title: Five reports in #4471 are one-day shifts, not month swaps (timezone/DST)
+labels: bug, 4471-review
+
+**Problem 3 of 3 split out of ticket #4471** — covers **5 of the 412 merged reports** (1.2%).
+
+## What happens
+
+Five reports describe invites landing **one day off** — Tuesday instead of Monday, an
+invite that arrives before the booking was made, the same meeting landing on different days
+in two timezones. No month/day swap anywhere. These look like a timezone or DST handling
+bug (invite times rendered in the wrong zone), and the month-first parser fix will not
+resolve them.
+
+## Evidence
+
+These are exactly the reports the desk itself read differently and noted in
+`src/lib/data/desk-notes.json` under `oneDayMove` — filed under #4471's cause by tenant,
+but footnoted by the desk as something else:
+
+| id | tenant | channel | what the report says |
+|---|---|---|---|
+| R-41202 | kettle.books | email | "Invite says Tuesday 12 May. Calendar says Monday 11 May. My client turned up on the Monday." |
+| R-41209 | alder.physio | app | "Every booking in June is one day off. Only June. Why only June." |
+| R-41236 | nine.lanterns | app | "The invite arrived before I made the booking. I would like to know how." |
+| R-41344 | pale.harbour | email | "Client in Lisbon got Tuesday. Client in Toronto got Monday. Same meeting. We held it twice." |
+| R-41620 | lantern.row | email | "Tuesday 6 October showed as Monday. I moved it myself." |
+
+First seen 2026-04-02, last seen 2026-10-04, 5 tenants, channels email 3 / app 2. Intake
+tagged all five `parser` — the tag is the reporter's browser, not the cause.
+
+## Fix
+
+Investigate timezone/DST handling in invite rendering (5 reports is small, but "invite
+arrived before the booking was made" — R-41236 — suggests the invite date is computed from
+a shifted instant, not a bad parse). Track separately from the parser fix.
